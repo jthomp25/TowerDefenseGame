@@ -16,5 +16,6 @@ public class GameSaveData
     public int coins;
     public int health;
     public int waveIndex;
+    public int sceneIndex;
     public List<TowerSaveData> towers = new List<TowerSaveData>();
 }

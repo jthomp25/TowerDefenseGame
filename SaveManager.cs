@@ -17,6 +17,7 @@ public class SaveManager : MonoBehaviour
             coins = CoinManager.instance.coins,
             health = HealthManager.healthInstance.health,
             waveIndex = FindObjectOfType<WaveManager>().currentWaveIndex,
+            sceneIndex = SceneManager.GetActiveScene().buildIndex, // save which level we're on
             towers = TowerPlacer.instance.GetTowerSaveData() // ADD THIS
         };
 
@@ -55,6 +56,15 @@ public class SaveManager : MonoBehaviour
         TowerPlacer.instance.RestoreTowers(data.towers); // ADD THIS
 
         Debug.Log("Game Loaded: " + json);
+    }
+
+    public static int GetSavedSceneIndex()
+    {
+        if (!PlayerPrefs.HasKey("SaveData")) return -1;
+ 
+        string json = PlayerPrefs.GetString("SaveData");
+        GameSaveData data = JsonUtility.FromJson<GameSaveData>(json);
+        return data.sceneIndex;
     }
 
     public bool HasSave()

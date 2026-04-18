@@ -6,12 +6,15 @@ public class HealthManager : MonoBehaviour
 {   
     public static HealthManager healthInstance;
 
-    public int health = 15;
+    public static bool isGameOver = false;
+
+    public int health = 12;
     public TextMeshProUGUI healthText;
 
     private void Awake()
     {
         healthInstance = this;
+        isGameOver = false;
         Updatehealth(0);
     }
 
@@ -22,6 +25,7 @@ public class HealthManager : MonoBehaviour
 
         if ( health <= 0 )
         {
+            isGameOver = true;
             Time.timeScale = 1f;
             Enemy.activeCount = 0;
             SceneManager.LoadScene( SceneManager.GetActiveScene().name );

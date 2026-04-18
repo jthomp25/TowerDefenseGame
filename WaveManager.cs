@@ -47,17 +47,30 @@ public class WaveManager : MonoBehaviour
 
         WaveData wave = waves[currentWaveIndex];
 
-        for ( int i = 0; i < wave.easyEnemies; i++ )
-        {
-            SpawnEnemy(easyEnemyPrefab);
-            yield return new WaitForSeconds( ( wave.duration / 3 ) / wave.easyEnemies );
+        int numEasy = wave.easyEnemies; 
+        int numHard = wave.hardEnemies;
+        int largerEnemies = 0;
+
+        if ( numEasy >= numHard ) {
+            largerEnemies = numEasy;
+        }
+        else {
+            largerEnemies = numHard;
         }
 
-        for ( int i = 0; i < wave.hardEnemies; i++ )
+        for ( int i = 0; i < largerEnemies; i++ )
         {
-            SpawnEnemy(hardEnemyPrefab);
-            yield return new WaitForSeconds( ( wave.duration / 3 ) / wave.hardEnemies );
+            if (numEasy > 0) {
+                SpawnEnemy(easyEnemyPrefab);
+                numEasy--;
+            }
+            if (numHard > 0) {
+                SpawnEnemy(hardEnemyPrefab);
+                numHard--;
+            }
+            yield return new WaitForSeconds( 1 );
         }
+
 
         yield return new WaitUntil(() => Enemy.activeCount <= 0 );
 
